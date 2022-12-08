@@ -5,7 +5,7 @@
 To run the code in your local system follow the following commands:
 
 ```bash
-git clone https://github.com/Neo-PL/Halide-Implementation.git
+git clone https://github.com/Neo-PL/Halide-Implementation.git && cd Halide-Implementation
 ```
 
 ```bash
