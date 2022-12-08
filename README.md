@@ -14,7 +14,7 @@ source halide-setup.sh
 
 
 ```bash
-make test
+make clean && make test
 ```
 On running the following command it will use the ```lenna.png```. Image attached here
 
