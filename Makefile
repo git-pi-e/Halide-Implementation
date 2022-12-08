@@ -9,9 +9,9 @@ bin/blur.a: bin/blur_generator
 
 bin/blur.rungen: bin/blur.a
 	c++ $(HALIDE_DIR)/share/Halide/tools/RunGenMain.cpp bin/blur.a bin/blur.registration.cpp -I $(HALIDE_DIR)/include  -o bin/blur.rungen -lpng -ljpeg -lz -lpthread -ldl
-	
+
 test: bin/blur.rungen
-	./bin/blur.rungen input=lenna.png result=blurry.png --benchmarks=all --benchmark_min_time=1 --parsable_output
+	./bin/blur.rungen input=input/lenna.png result=output/lenna_blurry.png --benchmarks=all --benchmark_min_time=1 --parsable_output
 
 clean:
 	rm -f bin/*
