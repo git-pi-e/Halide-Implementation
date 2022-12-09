@@ -22,15 +22,15 @@ let result.stride.0 = _halide_buffer_get_stride((halide_buffer_t *)result.buffer
 let result.min.1 = _halide_buffer_get_min((halide_buffer_t *)result.buffer, 1)
 let result.extent.1 = _halide_buffer_get_extent((halide_buffer_t *)result.buffer, 1)
 let result.stride.1 = _halide_buffer_get_stride((halide_buffer_t *)result.buffer, 1)
-let input.extent.0.required = let t159 = (input.extent.0 + input.min.0) in (max(min(result.extent.0 + result.min.0, t159), input.min.0 + 1) - max(min(min(result.extent.0, 256) + result.min.0, t159 + 255) + -256, input.min.0))
-let input.min.0.required = max(min(min(result.extent.0, 256) + result.min.0, (input.extent.0 + input.min.0) + 255) + -256, input.min.0)
-let input.extent.1.required.s = let t160 = (input.extent.1 + input.min.1) in (max(min(result.extent.1 + result.min.1, t160 + -1), input.min.1) - max(min(min(result.extent.1, 32) + result.min.1, t160 + 32) + -33, input.min.1))
-let input.min.1.required = max(min(min(result.extent.1, 32) + result.min.1, (input.extent.1 + input.min.1) + 32) + -33, input.min.1)
+let input.extent.0.required = let t88 = (input.extent.0 + input.min.0) in (max(min(result.extent.0 + result.min.0, t88), input.min.0 + 1) - max(min(t88 + -1, result.min.0), input.min.0))
+let input.min.0.required = max(min((input.extent.0 + input.min.0) + -1, result.min.0), input.min.0)
+let input.extent.1.required.s = let t89 = (result.extent.1 + result.min.1) in (let t90 = (input.extent.1 + input.min.1) in (max(max(min(t89, t90 + -1), max(min(t89, t90 + 1), min(t89, t90) + 1) + -2), input.min.1) - max(min(t90, result.min.1) + -1, input.min.1)))
+let input.min.1.required = max(min(input.extent.1 + input.min.1, result.min.1) + -1, input.min.1)
 if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)input.buffer)) {
  (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)input.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)input.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 1, 8, 2, (halide_dimension_t *)make_struct(input.min.0.required, input.extent.0.required, 1, 0, input.min.1.required, input.extent.1.required.s + 1, input.extent.0.required, 0), (uint64)0)
 }
 if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)result.buffer)) {
- let t161 = max(result.extent.0, 256) in (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)result.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)result.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 1, 8, 2, (halide_dimension_t *)make_struct((min(result.extent.0, 256) + result.min.0) + -256, t161, 1, 0, (min(result.extent.1, 32) + result.min.1) + -32, max(result.extent.1, 32), t161, 0), (uint64)0)
+ (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)result.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)result.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 1, 8, 2, (halide_dimension_t *)make_struct(result.min.0, result.extent.0, 1, 0, result.min.1, result.extent.1, result.extent.0, 0), (uint64)0)
 }
 if (!((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)input.buffer) || (uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)result.buffer))) {
  assert(input.type == (uint32)67585, halide_error_bad_type("Input buffer input", input.type, (uint32)67585))
@@ -41,8 +41,8 @@ if (!((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)input.buffer) || 
  assert(0 <= input.extent.0, halide_error_buffer_extents_negative("Input buffer input", 0, input.extent.0))
  assert((input.min.1 <= input.min.1.required) && (((input.extent.1.required.s + input.min.1.required) + 1) <= (input.extent.1 + input.min.1)), halide_error_access_out_of_bounds("Input buffer input", 1, input.min.1.required, input.extent.1.required.s + input.min.1.required, input.min.1, (input.extent.1 + input.min.1) + -1))
  assert(0 <= input.extent.1, halide_error_buffer_extents_negative("Input buffer input", 1, input.extent.1))
- assert(256 <= result.extent.0, let t162 = (result.extent.0 + result.min.0) in halide_error_access_out_of_bounds("Output buffer result", 0, (min(result.extent.0, 256) + result.min.0) + -256, t162 + -1, result.min.0, t162 + -1))
- assert(32 <= result.extent.1, let t163 = (result.extent.1 + result.min.1) in halide_error_access_out_of_bounds("Output buffer result", 1, (min(result.extent.1, 32) + result.min.1) + -32, t163 + -1, result.min.1, t163 + -1))
+ assert(0 <= result.extent.0, halide_error_buffer_extents_negative("Output buffer result", 0, result.extent.0))
+ assert(0 <= result.extent.1, halide_error_buffer_extents_negative("Output buffer result", 1, result.extent.1))
  assert(input.stride.0 == 1, halide_error_constraint_violated("input.stride.0", input.stride.0, "1", 1))
  assert(result.stride.0 == 1, halide_error_constraint_violated("result.stride.0", result.stride.0, "1", 1))
  let input.total_extent.1 = int64(input.extent.1)*int64(input.extent.0)
@@ -58,87 +58,63 @@ if (!((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)input.buffer) || 
  assert(input != (void *)reinterpret((uint64)0), halide_error_host_is_null("Input buffer input"))
  assert(result != (void *)reinterpret((uint64)0), halide_error_host_is_null("Output buffer result"))
  produce result {
-  let t109 = input.extent.0 + input.min.0
-  let t110 = input.extent.1 + input.min.1
-  let t99 = (result.extent.1 + 31)/32
-  let t100 = (result.extent.0 + 255)/256
-  let t108 = 0 - (result.min.1*result.stride.1)
-  let t103 = (input.min.1*input.stride.1) + input.min.0
-  for (result.s0.v1.v1, 0, t99) {
-   let result.s0.v1.v3.base.s = min(result.s0.v1.v1*32, result.extent.1 + -32)
-   let t120 = result.min.1 + result.s0.v1.v3.base.s
-   let t121 = min(result.s0.v1.v1*32, result.extent.1 + -32)
-   let t122 = max(t120 + -1, input.min.1)
-   let t123 = t120 + 33
-   let t124 = result.min.1 + t121
-   let t125 = t124 + -1
-   let t126 = t124 + 33
-   let t115 = min(max(t110, t125), t126) - min(max(input.min.1, t125), t126)
-   let t113 = max(min((input.min.1 - result.min.1) - t121, 33), -1)
-   let t119 = max(min((result.min.1 - t110) + t121, 1), -33)
-   let t112 = min(max(t110, t122), t123)
-   let t111 = min(t122, t123)
-   for (result.s0.v0.v0, 0, t100) {
-    let result.s0.v0.v2.base.s = min(result.s0.v0.v0*256, result.extent.0 + -256)
-    allocate f0[uint16 * 256 * 34]
-    produce f0 {
-     let t127 = result.min.0 + result.s0.v0.v2.base.s
-     for (f0.s0.v1.rebased, 0, t113 + 1) {
-      let t129 = f0.s0.v1.rebased*256
-      let t128 = (max(min(f0.s0.v1.rebased + t120, t110) + -1, input.min.1)*input.stride.1) - t103
-      for (f0.s0.v0.rebased, 0, 256) {
-       f0[f0.s0.v0.rebased + t129] = uint16(input[max(min(t109 + -1, f0.s0.v0.rebased + t127), input.min.0) + t128])
-      }
-     }
-     let t138 = result.min.0 + result.s0.v0.v2.base.s
-     let t139 = min(result.s0.v0.v0*256, result.extent.0 + -256)
-     let t140 = max(input.min.0, t138)
-     let t141 = t138 + 256
-     let t142 = result.min.0 + t139
-     let t143 = t142 + 256
-     let t135 = min(max(t109, t142), t143) - min(max(input.min.0, t142), t143)
-     let t132 = max(min((input.min.0 - result.min.0) - t139, 256), 0)
-     let t137 = max(min((result.min.0 - t109) + t139, 0), -256)
-     let t131 = min(max(t109, t140), t141)
-     let t130 = min(t140, t141)
-     for (f0.s0.v1.rebased, 0, t115) {
-      let t145 = (max(min((input.min.1 - result.min.1) - t121, 33), -1) + f0.s0.v1.rebased)*256
-      let t144 = ((f0.s0.v1.rebased + t111)*input.stride.1) - t103
-      for (f0.s0.v0.rebased, 0, t132) {
-       f0[(f0.s0.v0.rebased + t145) + 256] = uint16(input[max(min(t109 + -1, f0.s0.v0.rebased + t138), input.min.0) + t144])
-      }
-      let t148 = (max(min((input.min.1 - result.min.1) - t121, 33), -1) + f0.s0.v1.rebased)*256
-      let t147 = ((f0.s0.v1.rebased + t111)*input.stride.1) + (t130 - t103)
-      for (f0.s0.v0.rebased, 0, t135) {
-       f0[((max(min((input.min.0 - result.min.0) - t139, 256), 0) + t148) + f0.s0.v0.rebased) + 256] = uint16(input[f0.s0.v0.rebased + t147])
-      }
-      let t151 = (max(min((input.min.1 - result.min.1) - t121, 33), -1) + f0.s0.v1.rebased)*256
-      let t150 = ((f0.s0.v1.rebased + t111)*input.stride.1) - t103
-      for (f0.s0.v0.rebased, 0, t137 + 256) {
-       f0[((max(min((t109 - result.min.0) - t139, 256), 0) + t151) + f0.s0.v0.rebased) + 256] = uint16(input[max(min(t109 + -1, f0.s0.v0.rebased + t131), input.min.0) + t150])
-      }
-     }
-     let t153 = result.min.0 + result.s0.v0.v2.base.s
-     for (f0.s0.v1.rebased, 0, t119 + 33) {
-      let t155 = (max(min((t110 - result.min.1) - t121, 33), -1) + f0.s0.v1.rebased)*256
-      let t154 = (max(min(t110 + -1, f0.s0.v1.rebased + t112), input.min.1)*input.stride.1) - t103
-      for (f0.s0.v0.rebased, 0, 256) {
-       f0[(f0.s0.v0.rebased + t155) + 256] = uint16(input[max(min(t109 + -1, f0.s0.v0.rebased + t153), input.min.0) + t154])
-      }
-     }
-    }
-    consume f0 {
-     let t156 = result.s0.v0.v2.base.s + t108
-     for (result.s0.v1.v3, 0, 32) {
-      let t157 = result.s0.v1.v3*256
-      let t158 = ((result.s0.v1.v3 + t120)*result.stride.1) + t156
-      for (result.s0.v0.v2, 0, 256) {
-       let t98 = result.s0.v0.v2 + t157
-       result[result.s0.v0.v2 + t158] = uint8(((f0[t98 + 256] + (f0[t98 + 512] + f0[t98]))/(uint16)9))
-      }
-     }
-    }
-    free f0
+  let result.s0.v1.prologue = min(max(input.min.1 + 1, result.min.1), result.extent.1 + result.min.1)
+  let result.s0.v1.epilogue = min(max(max(input.min.1 + 1, result.min.1), (input.extent.1 + input.min.1) + -1), result.extent.1 + result.min.1)
+  let t50 = result.s0.v1.prologue - result.min.1
+  let t54 = 0 - (result.min.1*result.stride.1)
+  let t53 = (input.min.1*input.stride.1) + input.min.0
+  let t52 = input.extent.1 + input.min.1
+  let t51 = input.extent.0 + input.min.0
+  for (result.s0.v1.rebased, 0, t50) {
+   let t55 = result.min.1 + result.s0.v1.rebased
+   for (result.s0.v0.rebased, 0, result.extent.0) {
+    let t25 = max(min(t51 + -1, result.min.0 + result.s0.v0.rebased), input.min.0)
+    result[((result.stride.1*t55) + t54) + result.s0.v0.rebased] = uint8((((uint16(input[((max(min(t52, t55) + -1, input.min.1)*input.stride.1) - t53) + t25]) + uint16(input[((max(min(t52 + -1, t55), input.min.1)*input.stride.1) - t53) + t25])) + uint16(input[((max(min(t55 + 2, t52) + -1, input.min.1)*input.stride.1) - t53) + t25]))/(uint16)9))
+   }
+  }
+  let t65 = input.extent.0 + input.min.0
+  let t66 = result.extent.0 + result.min.0
+  let t67 = input.min.1*input.stride.1
+  let t68 = result.min.1*result.stride.1
+  let t69 = max(input.min.0, result.min.0)
+  let t58 = min(max(t65, t69), t66)
+  let t57 = min(t66, t69)
+  let t56 = result.s0.v1.epilogue - result.s0.v1.prologue
+  for (result.s0.v1.rebased, 0, t56) {
+   let t70 = t57 - result.min.0
+   let t73 = 0 - t68
+   let t71 = result.s0.v1.prologue + result.s0.v1.rebased
+   let t72 = input.min.0 + t67
+   for (result.s0.v0.rebased, 0, t70) {
+    let t27 = max(min(t65 + -1, result.min.0 + result.s0.v0.rebased), input.min.0)
+    result[((result.stride.1*t71) + t73) + result.s0.v0.rebased] = uint8((((uint16(input[(((t71 + -1)*input.stride.1) - t72) + t27]) + uint16(input[((input.stride.1*t71) - t72) + t27])) + uint16(input[(((t71 + 1)*input.stride.1) - t72) + t27]))/(uint16)9))
+   }
+   let t77 = (t57 - t68) - result.min.0
+   let t75 = (t57 - t67) - input.min.0
+   let t74 = t58 - t57
+   let t76 = result.s0.v1.prologue + result.s0.v1.rebased
+   for (result.s0.v0.rebased, 0, t74) {
+    result[((result.stride.1*t76) + t77) + result.s0.v0.rebased] = uint8((((uint16(input[(((t76 + -1)*input.stride.1) + t75) + result.s0.v0.rebased]) + uint16(input[((input.stride.1*t76) + t75) + result.s0.v0.rebased])) + uint16(input[(((t76 + 1)*input.stride.1) + t75) + result.s0.v0.rebased]))/(uint16)9))
+   }
+   let t81 = (t58 - t68) - result.min.0
+   let t78 = t66 - t58
+   let t79 = result.s0.v1.prologue + result.s0.v1.rebased
+   let t80 = input.min.0 + t67
+   for (result.s0.v0.rebased, 0, t78) {
+    let t30 = max(min(t65 + -1, result.s0.v0.rebased + t58), input.min.0)
+    result[((result.stride.1*t79) + t81) + result.s0.v0.rebased] = uint8((((uint16(input[(((t79 + -1)*input.stride.1) - t80) + t30]) + uint16(input[((input.stride.1*t79) - t80) + t30])) + uint16(input[(((t79 + 1)*input.stride.1) - t80) + t30]))/(uint16)9))
+   }
+  }
+  let t82 = (result.extent.1 + result.min.1) - result.s0.v1.epilogue
+  let t86 = 0 - (result.min.1*result.stride.1)
+  let t85 = (input.min.1*input.stride.1) + input.min.0
+  let t84 = input.extent.1 + input.min.1
+  let t83 = input.extent.0 + input.min.0
+  for (result.s0.v1.rebased, 0, t82) {
+   let t87 = result.s0.v1.epilogue + result.s0.v1.rebased
+   for (result.s0.v0.rebased, 0, result.extent.0) {
+    let t33 = max(min(t83 + -1, result.min.0 + result.s0.v0.rebased), input.min.0)
+    result[((result.stride.1*t87) + t86) + result.s0.v0.rebased] = uint8((((uint16(input[((max(min(t84, t87) + -1, input.min.1)*input.stride.1) - t85) + t33]) + uint16(input[((max(min(t84 + -1, t87), input.min.1)*input.stride.1) - t85) + t33])) + uint16(input[((max(min(t87 + 2, t84) + -1, input.min.1)*input.stride.1) - t85) + t33]))/(uint16)9))
    }
   }
  }
