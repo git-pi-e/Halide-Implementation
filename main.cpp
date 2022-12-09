@@ -35,6 +35,7 @@ class Blur:public Generator<Blur>{
             We have to prepare a schedule for the consumer before the schedule for the producer.
             That is why we will be scheduling result first, then input_16, then blur_x, then blur_y.
         */
+        
         const int vec = 32;
         Var xi,yi;
         result
